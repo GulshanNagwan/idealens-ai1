@@ -105,11 +105,11 @@ def generate_fail_safe_payload(name, industry, region, target, description, algo
         "monetization": ["Government Infrastructure Contracts", "Hardware Installation & Setup Licensing", "Premium Safety Dashboard API Subscriptions"],
         "technical_risks": "Hardware calibration, sensory decay, and transmission failures in non-networked sectors represent immediate bottlenecks.",
         "market_risks": "Long adoption cycles within conservative agricultural management frameworks.",
-        "elevator_pitch": f"For {target} in {region} looking to secure clean resources, {name} delivers an automated {industry} safety shield. By deploying robust solar-powered sensors directly into key distribution networks, we provide real-time automated contamination scanning to eliminate risk completely."
+        "elevator_pitch": f"For {target} in {region} seeking to secure clean resources, {name} delivers an automated {industry} safety shield. By deploying robust solar-powered sensors directly into key distribution networks, we provide real-time automated contamination scanning to eliminate risk completely."
     }
 
 # ==============================================================================
-# REUSABLE RENDERING ENGINE (Draws identical full-width templates across tabs)
+# REUSABLE RENDERING ENGINE (Draws identical templates across tabs)
 # ==============================================================================
 def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
     st.markdown("---")
@@ -120,8 +120,8 @@ def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
     col_m2.metric(label="Local Algorithmic Base Score", value=f"{algo_score}%")
     col_m3.metric(label="Calculated Scalability Index", value=f"{payload.get('scalability_score', 50)}%")
 
-    # Wide column ratios to stretch blocks cleanly
-    col_g1, col_g2 = st.columns([6, 5])
+    # Standard clean columns ratio
+    col_g1, col_g2 = st.columns([1, 1])
     with col_g1:
         with st.container(border=True):
             st.subheader("Performance Target Profile")
@@ -138,18 +138,18 @@ def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
                         visible=True, 
                         range=[0, 100], 
                         gridcolor="#4b5563",
-                        tickfont=dict(color="#ffffff", size=12, family="Arial")
+                        tickfont=dict(color="#ffffff", size=11)
                     ), 
                     angularaxis=dict(
                         gridcolor="#4b5563",
-                        tickfont=dict(color="#ffffff", size=13, weight="bold")
+                        tickfont=dict(color="#ffffff", size=11, weight="bold")
                     ),
                     bgcolor="rgba(17, 24, 39, 0.6)"
                 ),
                 paper_bgcolor='rgba(0,0,0,0)', 
                 plot_bgcolor='rgba(0,0,0,0)', 
-                height=320,  # Increased graph viewport resolution size
-                margin=dict(l=50, r=50, t=30, b=30)
+                height=300,
+                margin=dict(l=30, r=30, t=30, b=30)
             )
             st.plotly_chart(fig, use_container_width=True)
     with col_g2:
@@ -258,8 +258,11 @@ THREATS:
     )
 
 # ==============================================================================
-# 3. SIDEBAR NAVIGATION & MAIN ENTRY BRANCH SWITCH CHANNELS
+# 3. SIDEBAR NAVIGATION & MAIN ENTRY SETUP
 # ==============================================================================
+# SETS WIDE-MODE VIA OFFICIAL METHOD (Safely stretches layout without blank edges)
+st.set_page_config(page_title="IdeaLens AI - Business Intelligence Platform", layout="wide")
+
 API_KEY = st.secrets.get("GEMINI_API_KEY", "")
 client = genai.Client(api_key=API_KEY) if API_KEY else None
 
@@ -269,3 +272,82 @@ with st.sidebar:
     st.markdown("---")
     workspace = st.radio("Navigation Menu", ["🚀 Idea Analysis Board", "📂 Historical Report Logs"])
     st.markdown("---")
+    st.success("Local Architecture Engine: ONLINE")
+
+if workspace == "🚀 Idea Analysis Board":
+    st.title("💡 Startup Idea Valuation Panel")
+    st.write("Input your business concept telemetry data to run our local metrics calculation models.")
+    
+    with st.form("startup_form"):
+        col1, col2 = st.columns(2)
+        with col1:
+            startup_name = st.text_input("Startup / Venture Name", value="AquaDrop-Sensor")
+            industry = st.selectbox("Industry Segment", ["IoT/Hardware", "CleanTech", "SaaS", "FinTech", "EdTech"])
+            budget = st.selectbox("Funding Allotment Tier", ["Low (Bootstrap)", "Medium (Angel/Seed)", "High (VC Ready)"])
+        with col2:
+            target_audience = st.text_input("Target Customer Group", value="Agricultural Cooperatives")
+            region = st.text_input("Target Geographical Region", value="India")
+            team = st.selectbox("Current Team Size", ["1-2 Solo/Duet", "3-5 Core Team", "5+ Expanded Node"])
+            
+        default_pitch_text = (
+            "An automated physical hardware sensor network installed inside rural water distribution pipelines "
+            "to detect real-time chemical contamination. The solar-powered internet-connected physical nodes run "
+            "self-contained testing cycles every hour, broadcasting safety indicators directly to regional "
+            "community management dashboards to prevent crop failure and community poisoning."
+        )
+        idea_description = st.text_area("Venture Description (Explain your concept clearly)", value=default_pitch_text, height=150)
+        submit_btn = st.form_submit_button("Generate Full Validation Report")
+
+    if submit_btn:
+        if len(idea_description.strip()) < 15:
+            st.error("Validation Error: Please write a longer concept description for deep analysis.")
+        else:
+            with st.spinner("Processing calculations through distributed pipelines..."):
+                local_density = local_nlp_processor(idea_description)
+                calculated_viability = algorithmic_viability_matrix(budget, team, local_density)
+                
+                try:
+                    if not client:
+                        raise ValueError("Gemini key uninitialized.")
+                    master_prompt = f"Analyze business model details for startup '{startup_name}' ({industry}) inside region {region}. Description: {idea_description}. Respond in raw JSON matching: {{\"market_demand_score\": 80, \"scalability_score\": 70, \"market_demand_analysis\": \"text\", \"competitor_analysis\": \"text\", \"strengths\": [\"s1\"], \"weaknesses\": [\"w1\"], \"opportunities\": [\"o1\"], \"threats\": [\"t1\"], \"monetization\": [\"m1\"], \"technical_risks\": \"text\", \"market_risks\": \"text\", \"elevator_pitch\": \"text\"}}"
+                    response = client.models.generate_content(model='gemini-2.5-flash', contents=master_prompt)
+                    raw_json = response.text.strip().replace("```json", "").replace("```", "")
+                    llm_data = json.loads(raw_json)
+                except Exception as cloud_error:
+                    llm_data = generate_fail_safe_payload(startup_name, industry, region, target_audience, idea_description, calculated_viability)
+                
+                save_analysis(startup_name, industry, region, idea_description, local_density, calculated_viability, llm_data)
+                st.session_state['active_analysis'] = (startup_name, industry, region, local_density, calculated_viability, llm_data)
+
+    if 'active_analysis' in st.session_state:
+        name, ind, reg, dens, algo_score, payload = st.session_state['active_analysis']
+        render_full_report_dashboard(name, ind, reg, dens, algo_score, payload)
+
+else:
+    st.title("📂 Database Records Ledger")
+    st.write("Select past entries to reload dashboards or reset the relational storage layer.")
+    st.markdown("---")
+    
+    logs = fetch_history()
+    if not logs:
+        st.info("The system database registry ledger is currently empty.")
+    else:
+        clear_col1, clear_col2 = st.columns([3, 1])
+        with clear_col2:
+            if st.button("🚨 Clear All Saved History", type="primary", use_container_width=True):
+                clear_all_history_records()
+                st.success("Database records cleared successfully.")
+                st.rerun()
+                
+        with clear_col1:
+            log_options = {f"Record #{row[0]} | {row[1]} -> {row[2]} ({row[3]})": row[0] for row in logs}
+            selected_log_label = st.selectbox("Select Historical Venture Log Entry to Load:", list(log_options.keys()))
+        
+        if selected_log_label:
+            record_id = log_options[selected_log_label]
+            row_data = fetch_record_by_id(record_id)
+            
+            if row_data:
+                r_name, r_ind, r_reg, r_desc, r_dens, r_ascore, r_payload = row_data
+                parsed_payload = json.loads(r_payload)
+                render_full_report_dashboard(r_name, r_ind, r_reg, r_dens, r_ascore, parsed_payload)
