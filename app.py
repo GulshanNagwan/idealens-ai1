@@ -124,7 +124,7 @@ def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
                 line=dict(color='#2563eb', width=3), 
                 fillcolor='rgba(37, 99, 235, 0.3)'
             ))
-            # Fix graph numbers visibility explicitly for Dark Theme
+            # Fix graph numbers visibility explicitly for Dark Theme (Applied weight="bold" fix here)
             fig.update_layout(
                 polar=dict(
                     radialaxis=dict(
@@ -135,7 +135,7 @@ def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
                     ), 
                     angularaxis=dict(
                         gridcolor="#4b5563",
-                        tickfont=dict(color="#ffffff", size=13, bold=True)
+                        tickfont=dict(color="#ffffff", size=13, weight="bold")
                     ),
                     bgcolor="rgba(17, 24, 39, 0.6)"
                 ),
