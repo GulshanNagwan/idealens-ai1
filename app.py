@@ -101,16 +101,16 @@ def generate_fail_safe_payload(name, industry, region, target, description, algo
     }
 
 # ==============================================================================
-# REUSABLE RENDERING ENGINE (Draws the exact same UI for active and historical records)
+# REUSABLE RENDERING ENGINE (Draws identical layout templates across tabs)
 # ==============================================================================
 def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
     st.markdown("---")
-    st.header(f"📈 Strategic Feasibility Report: {name}")
+    st.header(f"📈 Feasibility Report Summary: {name}")
     
-    # High-Contrast Metric Cards
+    # Clean Grid Matrix Metrics Setup
     col_m1, col_m2, col_m3 = st.columns(3)
     col_m1.metric(label="Local NLP Keyword Density", value=f"{dens}%")
-    col_m2.metric(label="Local Algorithmic Score", value=f"{algo_score}%")
+    col_m2.metric(label="Local Algorithmic Base Score", value=f"{algo_score}%")
     col_m3.metric(label="Calculated Scalability Index", value=f"{payload.get('scalability_score', 50)}%")
 
     col_g1, col_g2 = st.columns([1, 1])
@@ -120,19 +120,38 @@ def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
             fig = go.Figure(data=go.Scatterpolar(
                 r=[algo_score, payload.get('market_demand_score', 50), payload.get('scalability_score', 50)],
                 theta=['Local Code Logic', 'Market Demand Index', 'Scalability Factor'],
-                fill='toself', line_color='#2563eb', fillcolor='rgba(37, 99, 235, 0.2)'
+                fill='toself', 
+                line=dict(color='#2563eb', width=3), 
+                fillcolor='rgba(37, 99, 235, 0.3)'
             ))
+            # Fix graph numbers visibility explicitly for Dark Theme
             fig.update_layout(
-                polar=dict(radialaxis=dict(visible=True, range=[0, 100])),
-                paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', height=250, margin=dict(l=30,r=30,t=30,b=30)
+                polar=dict(
+                    radialaxis=dict(
+                        visible=True, 
+                        range=[0, 100], 
+                        gridcolor="#4b5563",
+                        tickfont=dict(color="#ffffff", size=12, family="Arial")
+                    ), 
+                    angularaxis=dict(
+                        gridcolor="#4b5563",
+                        tickfont=dict(color="#ffffff", size=13, bold=True)
+                    ),
+                    bgcolor="rgba(17, 24, 39, 0.6)"
+                ),
+                paper_bgcolor='rgba(0,0,0,0)', 
+                plot_bgcolor='rgba(0,0,0,0)', 
+                height=280, 
+                margin=dict(l=40, r=40, t=30, b=30)
             )
             st.plotly_chart(fig, use_container_width=True)
     with col_g2:
         with st.container(border=True):
             st.subheader("Professional Elevator Pitch")
+            st.write("")
             st.info(f"\"{payload.get('elevator_pitch')}\"")
+            st.write("")
 
-    st.markdown("---")
     col_t1, col_t2 = st.columns(2)
     with col_t1:
         with st.container(border=True):
@@ -167,7 +186,7 @@ def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
             st.subheader("Suggested Revenue Generation Models")
             st.write(", ".join([f"⚙️ {x}" for x in payload.get('monetization', [])]))
 
-    # Beautiful Structured Executive Document Generator
+    # Beautiful Formal Document Package Format Configuration
     st.markdown("---")
     full_report_text = f"""======================================================================
                   IDEALENS AI - EXECUTIVE ASSESSMENT REPORT
@@ -233,9 +252,8 @@ THREATS:
     )
 
 # ==============================================================================
-# 3. MAIN WORKSPACE SELECTION INTERFACE
+# 3. SIDEBAR NAVIGATION & MAIN ENTRY BRANCH SWITCH CHANNELS
 # ==============================================================================
-# Secure API Connection Checking
 API_KEY = st.secrets.get("GEMINI_API_KEY", "")
 client = genai.Client(api_key=API_KEY) if API_KEY else None
 
@@ -247,7 +265,7 @@ with st.sidebar:
     st.markdown("---")
     st.success("Local Architecture Engine: ONLINE")
 
-# --- WORKSPACE SIDE NODE 1: PROCESSING AND INPUT PANELS ---
+# --- ENGINE TAB NODE 1: ANALYSIS WORKSPACE INPUTS ---
 if workspace == "🚀 Idea Analysis Board":
     st.title("💡 Startup Idea Valuation Panel")
     st.write("Input your business concept telemetry data to run our local metrics calculation models.")
@@ -291,7 +309,7 @@ if workspace == "🚀 Idea Analysis Board":
         name, ind, reg, dens, algo_score, payload = st.session_state['active_analysis']
         render_full_report_dashboard(name, ind, reg, dens, algo_score, payload)
 
-# --- WORKSPACE SIDE NODE 2: HISTORICAL ARCHIVE DATA VIEWER ---
+# --- ENGINE TAB NODE 2: SYNCED DATABASE HISTORY LOOKUPS ---
 else:
     st.title("📂 Database Records Ledger")
     st.write("Select any past record row from your local relational database storage to redraw its complete analytics layout dashboard.")
@@ -301,7 +319,6 @@ else:
     if not logs:
         st.info("The system database registry ledger is currently empty.")
     else:
-        # Create a dropdown menu listing all historical records
         log_options = {f"Record #{row[0]} | {row[1]} -> {row[2]} ({row[3]})": row[0] for row in logs}
         selected_log_label = st.selectbox("Select Historical Venture Log Entry to Load:", list(log_options.keys()))
         
@@ -313,5 +330,5 @@ else:
                 r_name, r_ind, r_reg, r_desc, r_dens, r_ascore, r_payload = row_data
                 parsed_payload = json.loads(r_payload)
                 
-                # Render the exact same rich UI layout blocks instantly for the past entry
+                # Re-renders the exact same beautiful dashboard cards dynamically from history table variables
                 render_full_report_dashboard(r_name, r_ind, r_reg, r_dens, r_ascore, parsed_payload)
