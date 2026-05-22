@@ -82,47 +82,46 @@ def algorithmic_viability_matrix(budget_tier, team_capacity, keyword_density):
     return round(base_score, 1)
 
 # ==============================================================================
-# 3. INTERFACE WORKSPACE: ULTRA HIGH-CONTRAST PROFESSIONAL EXECUTIVE THEME
+# 3. INTERFACE WORKSPACE: MAXIMUM CONTRAST DESIGN (SOLVES VISIBILITY ENTIRELY)
 # ==============================================================================
 st.set_page_config(page_title="IdeaLens AI - Business Intelligence Dashboard", layout="wide")
 
-# High contrast design fixing visibility bugs entirely
+# Strong visibility safety overrides
 st.markdown("""
     <style>
-        /* Main background and global crisp text color */
+        /* Base page background color adjustments */
         .stApp {
             background-color: #0b0f19;
             color: #ffffff !important;
         }
         
-        /* Fix visibility for all input field titles and sidebar texts */
-        label, p, span, .stMarkdown, [data-testid="stMarkdownContainer"] p {
+        /* Forces all labels, headers, and descriptions to stay bright white */
+        label, p, span, h1, h2, h3, h4, .stMarkdown, [data-testid="stMarkdownContainer"] p {
             color: #ffffff !important;
             font-weight: 500 !important;
         }
         
-        /* Sidebar layout visibility settings */
+        /* Sidebar styling panel override */
         section[data-testid="stSidebar"] {
             background-color: #111827 !important;
             border-right: 2px solid #2563eb !important;
         }
-        section[data-testid="stSidebar"] h1, section[data-testid="stSidebar"] h2, section[data-testid="stSidebar"] label {
+        section[data-testid="stSidebar"] h1, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] span {
             color: #ffffff !important;
         }
         
-        /* Custom input fields contrast styles */
+        /* Input layout fields structural styles */
         div[data-baseweb="textarea"], div[data-baseweb="input"], div[data-baseweb="select"] {
             background-color: #1f2937 !important;
             border: 2px solid #4b5563 !important;
             border-radius: 8px !important;
         }
-        textarea, input, select {
+        textarea, input, select, div[data-baseweb="select"] span {
             color: #ffffff !important;
-            background-color: #1f2937 !important;
         }
         
-        /* High visibility main trigger button styling */
-        .stButton>button {
+        /* FORCE WHITE TEXT FOR BUTTONS AND DOWNLOAD BUTTON LINKS */
+        .stButton>button, .stDownloadButton>button {
             background-color: #2563eb !important;
             color: #ffffff !important;
             border: 2px solid #3b82f6 !important;
@@ -135,23 +134,22 @@ st.markdown("""
             letter-spacing: 1px;
             box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4) !important;
         }
-        .stButton>button:hover {
+        
+        /* Ensure the nested structural label strings inside download triggers stay clean white */
+        .stButton>button p, .stDownloadButton>button p, .stDownloadButton>button span {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }
+        
+        .stButton>button:hover, .stDownloadButton>button:hover {
             background-color: #1d4ed8 !important;
             border-color: #2563eb !important;
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6) !important;
         }
-        
-        /* Custom styles for native containers to ensure neat grid structure */
-        div[data-testid="stVerticalBlockBorderWrapper"] {
-            background-color: #111827 !important;
-            border: 1px solid #374151 !important;
-            padding: 15px !important;
-            border-radius: 8px !important;
-        }
     </style>
 """, unsafe_allow_html=True)
 
-# Secure API Key Check - Checks Secrets first, then fallback to manual entry
+# Secure Environment API Initializations
 API_KEY = st.secrets.get("GEMINI_API_KEY", "")
 if not API_KEY:
     API_KEY = st.sidebar.text_input("Enter Gemini API Key (Fallback):", type="password")
@@ -164,9 +162,9 @@ with st.sidebar:
     workspace = st.radio("Navigation Menu", ["🚀 Idea Analysis Board", "📂 Historical Report Logs"])
     st.markdown("---")
     if client:
-        st.success("API Connected Successfully")
+        st.success("API Connected")
     else:
-        st.warning("Awaiting API Connection Key")
+        st.warning("Awaiting API Key Connection")
 
 # ==============================================================================
 # WORKSPACE PANEL 1: MAIN IDEA INPUT AND REPORT GENERATION
@@ -233,7 +231,11 @@ if workspace == "🚀 Idea Analysis Board":
                     st.success("Report Generation Successful.")
                     
                 except Exception as e:
-                    st.error(f"Inference Failure: {str(e)}")
+                    # FRIENDLY RECOVERY TIP: If 503 error happens, guide the user to look at safety logs
+                    if "503" in str(e):
+                        st.error("⚠️ Cloud Core Busy: Google's free-tier server node is facing high traffic spikes. Rest assured, your architecture has processed local metrics. Please try resubmitting in 10 seconds or switch to 'Historical Report Logs' to present saved data matrices instantly!")
+                    else:
+                        st.error(f"Inference Failure: {str(e)}")
 
     # High-Performance Dashboard Rendering
     if 'active_analysis' in st.session_state:
@@ -304,7 +306,6 @@ if workspace == "🚀 Idea Analysis Board":
                 st.subheader("Suggested Revenue Generation Models")
                 st.write(", ".join([f"⚙️ {x}" for x in payload.get('monetization', [])]))
 
-        # Enhanced High-Content Report Generation Engine (Solves the basic bullet point issue)
         st.markdown("---")
         full_executive_report = f"""======================================================================
                   IDEALENS AI - EXECUTIVE ASSESSMENT REPORT
