@@ -58,6 +58,14 @@ def fetch_record_by_id(record_id):
     conn.close()
     return row
 
+def clear_all_history_records():
+    """Drops data entries inside the logging schema instantly."""
+    conn = sqlite3.connect("idealens_bi.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM venture_logs")
+    conn.commit()
+    conn.close()
+
 init_db()
 
 # ==============================================================================
@@ -262,6 +270,7 @@ with st.sidebar:
     st.markdown("---")
     st.success("Local Architecture Engine: ONLINE")
 
+# --- ENGINE TAB NODE 1: ANALYSIS WORKSPACE INPUTS ---
 if workspace == "🚀 Idea Analysis Board":
     st.title("💡 Startup Idea Valuation Panel")
     st.write("Input your business concept telemetry data to run our local metrics calculation models.")
@@ -277,7 +286,6 @@ if workspace == "🚀 Idea Analysis Board":
             region = st.text_input("Target Geographical Region", value="India")
             team = st.selectbox("Current Team Size", ["1-2 Solo/Duet", "3-5 Core Team", "5+ Expanded Node"])
             
-        # RESTORED DEFAULT TESTING TEXT PAYLOAD BELOW
         default_pitch_text = (
             "We are building an AI-driven mobile router data bridge that shares local mobile data "
             "over a custom mesh network platform. This software service allows users to scale their "
@@ -313,17 +321,28 @@ if workspace == "🚀 Idea Analysis Board":
         name, ind, reg, dens, algo_score, payload = st.session_state['active_analysis']
         render_full_report_dashboard(name, ind, reg, dens, algo_score, payload)
 
+# --- ENGINE TAB NODE 2: SYNCED DATABASE HISTORY LOOKUPS WITH DELETE BUTTON ---
 else:
     st.title("📂 Database Records Ledger")
-    st.write("Select any past record row from your local relational database storage to redraw its complete analytics layout dashboard.")
+    st.write("Select past entries to reload dashboards or reset the relational storage layer.")
     st.markdown("---")
     
     logs = fetch_history()
     if not logs:
         st.info("The system database registry ledger is currently empty.")
     else:
-        log_options = {f"Record #{row[0]} | {row[1]} -> {row[2]} ({row[3]})": row[0] for row in logs}
-        selected_log_label = st.selectbox("Select Historical Venture Log Entry to Load:", list(log_options.keys()))
+        # Layout container for the deletion control console node
+        clear_col1, clear_col2 = st.columns([3, 1])
+        with clear_col2:
+            # High-visibility action trigger to wipe records safely
+            if st.button("🚨 Clear All Saved History", type="primary", use_container_width=True):
+                clear_all_history_records()
+                st.success("Database records cleared successfully.")
+                st.rerun()
+                
+        with clear_col1:
+            log_options = {f"Record #{row[0]} | {row[1]} -> {row[2]} ({row[3]})": row[0] for row in logs}
+            selected_log_label = st.selectbox("Select Historical Venture Log Entry to Load:", list(log_options.keys()))
         
         if selected_log_label:
             record_id = log_options[selected_log_label]
