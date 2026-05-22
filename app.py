@@ -107,7 +107,6 @@ def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
     st.markdown("---")
     st.header(f"📈 Feasibility Report Summary: {name}")
     
-    # Clean Grid Matrix Metrics Setup
     col_m1, col_m2, col_m3 = st.columns(3)
     col_m1.metric(label="Local NLP Keyword Density", value=f"{dens}%")
     col_m2.metric(label="Local Algorithmic Base Score", value=f"{algo_score}%")
@@ -124,7 +123,6 @@ def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
                 line=dict(color='#2563eb', width=3), 
                 fillcolor='rgba(37, 99, 235, 0.3)'
             ))
-            # Fix graph numbers visibility explicitly for Dark Theme (Applied weight="bold" fix here)
             fig.update_layout(
                 polar=dict(
                     radialaxis=dict(
@@ -186,7 +184,6 @@ def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
             st.subheader("Suggested Revenue Generation Models")
             st.write(", ".join([f"⚙️ {x}" for x in payload.get('monetization', [])]))
 
-    # Beautiful Formal Document Package Format Configuration
     st.markdown("---")
     full_report_text = f"""======================================================================
                   IDEALENS AI - EXECUTIVE ASSESSMENT REPORT
@@ -265,7 +262,6 @@ with st.sidebar:
     st.markdown("---")
     st.success("Local Architecture Engine: ONLINE")
 
-# --- ENGINE TAB NODE 1: ANALYSIS WORKSPACE INPUTS ---
 if workspace == "🚀 Idea Analysis Board":
     st.title("💡 Startup Idea Valuation Panel")
     st.write("Input your business concept telemetry data to run our local metrics calculation models.")
@@ -281,7 +277,15 @@ if workspace == "🚀 Idea Analysis Board":
             region = st.text_input("Target Geographical Region", value="India")
             team = st.selectbox("Current Team Size", ["1-2 Solo/Duet", "3-5 Core Team", "5+ Expanded Node"])
             
-        idea_description = st.text_area("Venture Description (Explain your concept clearly)", height=150)
+        # RESTORED DEFAULT TESTING TEXT PAYLOAD BELOW
+        default_pitch_text = (
+            "We are building an AI-driven mobile router data bridge that shares local mobile data "
+            "over a custom mesh network platform. This software service allows users to scale their "
+            "unused digital bandwidth to local customers, generating automated passive revenue. "
+            "The technology relies on an online peer-to-peer automation app where customers pay "
+            "a digital subscription to access premium local networks without cellular tower dependencies."
+        )
+        idea_description = st.text_area("Venture Description (Explain your concept clearly)", value=default_pitch_text, height=150)
         submit_btn = st.form_submit_button("Generate Full Validation Report")
 
     if submit_btn:
@@ -309,7 +313,6 @@ if workspace == "🚀 Idea Analysis Board":
         name, ind, reg, dens, algo_score, payload = st.session_state['active_analysis']
         render_full_report_dashboard(name, ind, reg, dens, algo_score, payload)
 
-# --- ENGINE TAB NODE 2: SYNCED DATABASE HISTORY LOOKUPS ---
 else:
     st.title("📂 Database Records Ledger")
     st.write("Select any past record row from your local relational database storage to redraw its complete analytics layout dashboard.")
@@ -329,6 +332,4 @@ else:
             if row_data:
                 r_name, r_ind, r_reg, r_desc, r_dens, r_ascore, r_payload = row_data
                 parsed_payload = json.loads(r_payload)
-                
-                # Re-renders the exact same beautiful dashboard cards dynamically from history table variables
                 render_full_report_dashboard(r_name, r_ind, r_reg, r_dens, r_ascore, parsed_payload)
