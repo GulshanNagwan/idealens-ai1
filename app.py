@@ -59,7 +59,6 @@ def fetch_record_by_id(record_id):
     return row
 
 def clear_all_history_records():
-    """Drops data entries inside the logging schema instantly."""
     conn = sqlite3.connect("idealens_bi.db")
     cursor = conn.cursor()
     cursor.execute("DELETE FROM venture_logs")
@@ -74,7 +73,8 @@ init_db()
 def local_nlp_processor(text_input):
     business_keywords = [
         "platform", "scale", "market", "app", "service", "customer", "revenue", 
-        "b2b", "saas", "user", "technology", "ai", "automation", "online", "digital"
+        "b2b", "saas", "user", "technology", "ai", "automation", "online", "digital",
+        "hardware", "sensor", "network", "device", "infrastructure", "system"
     ]
     tokens = re.findall(r'\b\w+\b', text_input.lower())
     if not tokens:
@@ -95,21 +95,21 @@ def algorithmic_viability_matrix(budget_tier, team_capacity, keyword_density):
 def generate_fail_safe_payload(name, industry, region, target, description, algo_score):
     return {
         "market_demand_score": int(algo_score - 5),
-        "scalability_score": int(algo_score + 5),
-        "market_demand_analysis": f"Local Processing Analytics Node: High market potential monitored inside {region} for target demographic ({target}). The baseline score reflects solid structural market alignment.",
-        "competitor_analysis": f"Direct entry market saturation for {industry} within {region} is evaluated at medium tiers. The primary competitive advantage rests on execution speed and local algorithmic optimizations.",
-        "strengths": ["Targeted user execution strategy", f"Custom localized scoring model ({algo_score}%)", "Low operational infrastructure costs", "Direct relational database tracking integration"],
-        "weaknesses": ["Initial user onboarding adoption friction", "Heavy reliance on early-stage platform density", "Bootstrap resource deployment restraints", "Data collection speed dependencies"],
-        "opportunities": [f"Uncapped expansion across alternative sectors in {region}", "Strategic integrations into enterprise corporate architectures", "Value-added subscription tier updates", "Automated localized user profiling tools"],
-        "threats": ["Feature matching by larger global competitors", "Changes to local data compliance protocols", "Evolving privacy regulations across jurisdictions", "Variable cloud resource delivery vectors"],
-        "monetization": ["Tiered Core Subscription Models", "System API Access Gateways", "Commission-based data transactions"],
-        "technical_risks": "Local infrastructure operational system checks verified safely.",
-        "market_risks": "Competitive market performance pressure indicators calibrated inside standard margins.",
-        "elevator_pitch": f"For {target} in {region} seeking optimized solutions, {name} introduces a high-viability {industry} infrastructure. Powered by independent analytics, we bypass standard delivery constraints to maximize operational agility."
+        "scalability_score": int(algo_score - 10),
+        "market_demand_analysis": f"Local Processing Analytics Node: High real-world demand calculated within agricultural zones across {region}. Physical infrastructure monitoring targets immediate public safety and environmental sustainability parameters.",
+        "competitor_analysis": f"Direct marketplace competition for pipeline integrated {industry} units remains low in rural segments. Entry barrier is protected by hardware design compliance and regional deployment access.",
+        "strengths": ["Critical high-impact public utility use-case", "Bypasses standard internet grid dependencies via decentralized nodes", "Solar-powered standalone automation framework", "Relational hardware logging systems"],
+        "weaknesses": ["High hardware manufacturing capital constraints", "Logistical complexity of physical network installation", "Bootstrap funding tier resource limitations", "On-site maintenance response dependencies"],
+        "opportunities": ["Integration into public smart-city infrastructure grids", "Expansion into multi-state rural tracking cooperatives", "Data validation APIs for environmental compliance panels", "B2B partnerships with commercial filtration plants"],
+        "threats": ["Damage or theft of unsecured open-field hardware units", "Changes to local pipeline construction guidelines", "Severe meteorological conditions blocking solar recharge arrays", "Component inventory inflation risks"],
+        "monetization": ["Government Infrastructure Contracts", "Hardware Installation & Setup Licensing", "Premium Safety Dashboard API Subscriptions"],
+        "technical_risks": "Hardware calibration, sensory decay, and transmission failures in non-networked sectors represent immediate bottlenecks.",
+        "market_risks": "Long adoption cycles within conservative agricultural management frameworks.",
+        "elevator_pitch": f"For {target} in {region} looking to secure clean resources, {name} delivers an automated {industry} safety shield. By deploying robust solar-powered sensors directly into key distribution networks, we provide real-time automated contamination scanning to eliminate risk completely."
     }
 
 # ==============================================================================
-# REUSABLE RENDERING ENGINE (Draws identical layout templates across tabs)
+# REUSABLE RENDERING ENGINE (Draws identical full-width templates across tabs)
 # ==============================================================================
 def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
     st.markdown("---")
@@ -120,7 +120,8 @@ def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
     col_m2.metric(label="Local Algorithmic Base Score", value=f"{algo_score}%")
     col_m3.metric(label="Calculated Scalability Index", value=f"{payload.get('scalability_score', 50)}%")
 
-    col_g1, col_g2 = st.columns([1, 1])
+    # Wide column ratios to stretch blocks cleanly
+    col_g1, col_g2 = st.columns([6, 5])
     with col_g1:
         with st.container(border=True):
             st.subheader("Performance Target Profile")
@@ -147,8 +148,8 @@ def render_full_report_dashboard(name, ind, reg, dens, algo_score, payload):
                 ),
                 paper_bgcolor='rgba(0,0,0,0)', 
                 plot_bgcolor='rgba(0,0,0,0)', 
-                height=280, 
-                margin=dict(l=40, r=40, t=30, b=30)
+                height=320,  # Increased graph viewport resolution size
+                margin=dict(l=50, r=50, t=30, b=30)
             )
             st.plotly_chart(fig, use_container_width=True)
     with col_g2:
@@ -268,87 +269,3 @@ with st.sidebar:
     st.markdown("---")
     workspace = st.radio("Navigation Menu", ["🚀 Idea Analysis Board", "📂 Historical Report Logs"])
     st.markdown("---")
-    st.success("Local Architecture Engine: ONLINE")
-
-# --- ENGINE TAB NODE 1: ANALYSIS WORKSPACE INPUTS ---
-if workspace == "🚀 Idea Analysis Board":
-    st.title("💡 Startup Idea Valuation Panel")
-    st.write("Input your business concept telemetry data to run our local metrics calculation models.")
-    
-    with st.form("startup_form"):
-        col1, col2 = st.columns(2)
-        with col1:
-            startup_name = st.text_input("Startup / Venture Name", value="OmniRoute-Mesh")
-            industry = st.selectbox("Industry Segment", ["SaaS", "FinTech", "EdTech", "IoT/Hardware", "CleanTech"])
-            budget = st.selectbox("Funding Allotment Tier", ["Low (Bootstrap)", "Medium (Angel/Seed)", "High (VC Ready)"])
-        with col2:
-            target_audience = st.text_input("Target Customer Group", value="Urban Freelancers & Students")
-            region = st.text_input("Target Geographical Region", value="India")
-            team = st.selectbox("Current Team Size", ["1-2 Solo/Duet", "3-5 Core Team", "5+ Expanded Node"])
-            
-        default_pitch_text = (
-            "We are building an AI-driven mobile router data bridge that shares local mobile data "
-            "over a custom mesh network platform. This software service allows users to scale their "
-            "unused digital bandwidth to local customers, generating automated passive revenue. "
-            "The technology relies on an online peer-to-peer automation app where customers pay "
-            "a digital subscription to access premium local networks without cellular tower dependencies."
-        )
-        idea_description = st.text_area("Venture Description (Explain your concept clearly)", value=default_pitch_text, height=150)
-        submit_btn = st.form_submit_button("Generate Full Validation Report")
-
-    if submit_btn:
-        if len(idea_description.strip()) < 15:
-            st.error("Validation Error: Please write a longer concept description for deep analysis.")
-        else:
-            with st.spinner("Processing calculations through distributed pipelines..."):
-                local_density = local_nlp_processor(idea_description)
-                calculated_viability = algorithmic_viability_matrix(budget, team, local_density)
-                
-                try:
-                    if not client:
-                        raise ValueError("Gemini key uninitialized.")
-                    master_prompt = f"Analyze business model details for startup '{startup_name}' ({industry}) inside region {region}. Description: {idea_description}. Respond in raw JSON matching: {{\"market_demand_score\": 80, \"scalability_score\": 85, \"market_demand_analysis\": \"text\", \"competitor_analysis\": \"text\", \"strengths\": [\"s1\"], \"weaknesses\": [\"w1\"], \"opportunities\": [\"o1\"], \"threats\": [\"t1\"], \"monetization\": [\"m1\"], \"technical_risks\": \"text\", \"market_risks\": \"text\", \"elevator_pitch\": \"text\"}}"
-                    response = client.models.generate_content(model='gemini-2.5-flash', contents=master_prompt)
-                    raw_json = response.text.strip().replace("```json", "").replace("```", "")
-                    llm_data = json.loads(raw_json)
-                except Exception as cloud_error:
-                    llm_data = generate_fail_safe_payload(startup_name, industry, region, target_audience, idea_description, calculated_viability)
-                
-                save_analysis(startup_name, industry, region, idea_description, local_density, calculated_viability, llm_data)
-                st.session_state['active_analysis'] = (startup_name, industry, region, local_density, calculated_viability, llm_data)
-
-    if 'active_analysis' in st.session_state:
-        name, ind, reg, dens, algo_score, payload = st.session_state['active_analysis']
-        render_full_report_dashboard(name, ind, reg, dens, algo_score, payload)
-
-# --- ENGINE TAB NODE 2: SYNCED DATABASE HISTORY LOOKUPS WITH DELETE BUTTON ---
-else:
-    st.title("📂 Database Records Ledger")
-    st.write("Select past entries to reload dashboards or reset the relational storage layer.")
-    st.markdown("---")
-    
-    logs = fetch_history()
-    if not logs:
-        st.info("The system database registry ledger is currently empty.")
-    else:
-        # Layout container for the deletion control console node
-        clear_col1, clear_col2 = st.columns([3, 1])
-        with clear_col2:
-            # High-visibility action trigger to wipe records safely
-            if st.button("🚨 Clear All Saved History", type="primary", use_container_width=True):
-                clear_all_history_records()
-                st.success("Database records cleared successfully.")
-                st.rerun()
-                
-        with clear_col1:
-            log_options = {f"Record #{row[0]} | {row[1]} -> {row[2]} ({row[3]})": row[0] for row in logs}
-            selected_log_label = st.selectbox("Select Historical Venture Log Entry to Load:", list(log_options.keys()))
-        
-        if selected_log_label:
-            record_id = log_options[selected_log_label]
-            row_data = fetch_record_by_id(record_id)
-            
-            if row_data:
-                r_name, r_ind, r_reg, r_desc, r_dens, r_ascore, r_payload = row_data
-                parsed_payload = json.loads(r_payload)
-                render_full_report_dashboard(r_name, r_ind, r_reg, r_dens, r_ascore, parsed_payload)
