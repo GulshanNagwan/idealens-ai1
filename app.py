@@ -7,7 +7,7 @@ import re
 from datetime import datetime
 
 # ==============================================================================
-# 1. DATA LAYER: RELATIONAL PERSISTENCE (SQLite3 Architecture)
+# 1. DATABASE MANAGEMENT LAYER (SQLite3 Relational Storage)
 # ==============================================================================
 def init_db():
     """Initializes the structural SQL tracking framework table nodes."""
@@ -91,62 +91,43 @@ def algorithmic_viability_matrix(budget_tier, team_capacity, keyword_density):
     return round(base_score, 1)
 
 # ==============================================================================
-# 3. INTERFACE WORKSPACE: HIGH-CONTRAST NEON CYBER-TERMINAL SPECIFICATION
+# 3. INTERFACE WORKSPACE: PREMIUM SLATE CORPORATE ANALYTICS THEME
 # ==============================================================================
-st.set_page_config(page_title="IdeaLens AI // Command Center", layout="wide")
+st.set_page_config(page_title="IdeaLens AI - Business Intelligence Dashboard", layout="wide")
 
+# Global UI Style Layout Enhancements
 st.markdown("""
     <style>
         .stApp {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: 'Courier New', Courier, monospace;
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
         section[data-testid="stSidebar"] {
-            background-color: #161b22 !important;
-            border-right: 2px solid #00f2ff !important;
-        }
-        .terminal-card {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-left: 4px solid #00f2ff;
-            padding: 20px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-        .risk-card {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-left: 4px solid #ff3e3e;
-            padding: 20px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-        .neon-text {
-            color: #00f2ff;
-            text-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
-            font-weight: bold;
+            background-color: #1e293b !important;
+            border-right: 1px solid #334155 !important;
         }
         div[data-baseweb="textarea"], div[data-baseweb="input"], div[data-baseweb="select"] {
-            background-color: #0d1117 !important;
-            border: 1px solid #30363d !important;
+            background-color: #1e293b !important;
+            border: 1px solid #334155 !important;
+            border-radius: 8px !important;
         }
         textarea, input {
-            color: #00f2ff !important;
-            font-family: 'Courier New', Courier, monospace !important;
+            color: #f8fafc !important;
         }
         .stButton>button {
-            background-color: #0d1117 !important;
-            color: #00f2ff !important;
-            border: 1px solid #00f2ff !important;
+            background-color: #2563eb !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 12px 24px !important;
+            font-weight: 600 !important;
             width: 100%;
-            font-weight: bold !important;
-            transition: all 0.3s;
+            transition: background-color 0.2s;
         }
         .stButton>button:hover {
-            background-color: #00f2ff !important;
-            color: #0d1117 !important;
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+            background-color: #1d4ed8 !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
     </style>
 """, unsafe_allow_html=True)
@@ -154,53 +135,54 @@ st.markdown("""
 # Secure Environment Configuration for Global API Client Engine
 API_KEY = st.secrets.get("GEMINI_API_KEY", "")
 if not API_KEY:
-    API_KEY = st.sidebar.text_input("SYSTEM: Input Gemini Key manually:", type="password")
+    API_KEY = st.sidebar.text_input("Enter Gemini API Key:", type="password")
 client = genai.Client(api_key=API_KEY) if API_KEY else None
 
 with st.sidebar:
-    st.markdown("<h2 class='neon-text'>// IDEALENS AI</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='font-size:0.8rem; color:#8b949e;'>CORE TELEMETRY ENGINE // v3.0</p>", unsafe_allow_html=True)
+    st.title("📊 IdeaLens AI")
+    st.caption("Business Validation & Analytics Platform")
     st.markdown("---")
-    workspace = st.radio("EXAMINER CONTROL NODES", ["🚀 Engine Diagnostics", "📂 Database Log Registry"])
+    workspace = st.radio("Navigation Panel", ["🚀 Idea Analysis Board", "📂 Historical Report Logs"])
     st.markdown("---")
-    st.markdown("<div style='font-size:0.8rem; color:#8b949e;'>SYS STAT: <span style='color:#56d364;'>● ONLINE</span></div>", unsafe_allow_html=True)
+    st.success("System Status: Active")
 
 # ==============================================================================
-# PIPELINE CHANNEL 1: PROCESSING TELEMETRY ENGINE
+# WORKSPACE PANEL 1: MAIN IDEA INPUT AND REPORT GENERATION
 # ==============================================================================
-if workspace == "🚀 Engine Diagnostics":
-    st.markdown("<h1 class='neon-text'>[ HYBRID SYSTEM INFERENCE ENGINE ]</h1>", unsafe_allow_html=True)
+if workspace == "🚀 Idea Analysis Board":
+    st.title("💡 Startup Idea Diagnostics")
+    st.write("Fill out the business profile form below to generate a deep cloud-computed market feasibility report.")
     
-    with st.form("telemetry_input"):
+    with st.form("startup_form"):
         col1, col2 = st.columns(2)
         with col1:
-            startup_name = st.text_input("Venture Code Identifier", value="Project_Alpha")
+            startup_name = st.text_input("Startup / Venture Name", value="OmniRoute-Mesh")
             industry = st.selectbox("Industry Node Segment", ["SaaS", "FinTech", "EdTech", "IoT/Hardware", "CleanTech"])
             budget = st.selectbox("Financial Resource Allocation", ["Low (Bootstrap)", "Medium (Angel/Seed)", "High (VC Ready)"])
         with col2:
-            target_audience = st.text_input("Target Consumer Profile", value="Developers")
+            target_audience = st.text_input("Target Consumer Profile", value="Urban Freelancers & Students")
             region = st.text_input("Geographic Jurisdiction Node", value="India")
             team = st.selectbox("Human Capital Resource Capacity", ["1-2 Solo/Duet", "3-5 Core Team", "5+ Expanded Node"])
             
-        idea_description = st.text_area("Venture Conceptual Manifest Text")
-        submit_btn = st.form_submit_button("RUN DISTRIBUTED PROCESSING PIPELINE")
+        idea_description = st.text_area("Venture Description (Explain your idea here)", height=150)
+        submit_btn = st.form_submit_button("Generate Full Validation Report")
 
     if submit_btn:
         if not client:
-            st.error("Exception Failure: Active Inference Engine API Connection Key context is null.")
+            st.error("Authentication Error: Active Gemini API Validation Key missing in environment settings.")
         elif len(idea_description.strip()) < 15:
-            st.error("Processing Terminated: Conceptual text validation constraints failed (String payload too short).")
+            st.error("Validation Error: Please write a longer description of your startup concept.")
         else:
-            with st.spinner("Executing Local Token NLP Pipelines and Distributing Cloud Core Inference..."):
+            with st.spinner("Processing local calculations and compiling cloud business data..."):
                 try:
                     # Execute mathematical algorithms locally 
                     local_density = local_nlp_processor(idea_description)
                     calculated_viability = algorithmic_viability_matrix(budget, team, local_density)
                     
-                    # Package structured query configuration logic prompt payload
+                    # Package structured validation instructions
                     master_prompt = f"""
-                    You are the multi-agent analytics vector for the IdeaLens AI business intelligence platform.
-                    Analyze this enterprise parameters payload:
+                    You are an expert enterprise business intelligence platform analyzing a new startup concept.
+                    Analyze these details:
                     Name: {startup_name} | Industry: {industry} | Region: {region} | Target: {target_audience}
                     Concept Context: {idea_description}
                     Local Algorithmic Score Calculated: {calculated_viability}%
@@ -209,16 +191,16 @@ if workspace == "🚀 Engine Diagnostics":
                     {{
                         "market_demand_score": 75,
                         "scalability_score": 80,
-                        "market_demand_analysis": "Comprehensive textual market data breakdown.",
-                        "competitor_analysis": "Deep evaluation of competitors.",
+                        "market_demand_analysis": "Comprehensive market data and demand overview text here.",
+                        "competitor_analysis": "Deep evaluation of competitors text here.",
                         "strengths": ["Strategic Strength 1", "Strategic Strength 2"],
                         "weaknesses": ["Risk Factor 1", "Risk Factor 2"],
                         "opportunities": ["Growth Vector 1", "Growth Vector 2"],
                         "threats": ["Market Threat 1", "Market Threat 2"],
                         "monetization": ["Revenue Model 1", "Revenue Model 2"],
-                        "technical_risks": "Local infrastructure operational system vulnerabilities analysis.",
-                        "market_risks": "Competitive market performance pressure indicators.",
-                        "elevator_pitch": "Structural highly-compelling 30-second venture presentation pitch."
+                        "technical_risks": "Infrastructure operational system failure risks text.",
+                        "market_risks": "Competitive market entry pressure metrics text.",
+                        "elevator_pitch": "Structural 30-second investor presentation pitch line."
                     }}
                     """
                     
@@ -232,110 +214,115 @@ if workspace == "🚀 Engine Diagnostics":
                     
                     # Write dataset to active running session framework tracking state
                     st.session_state['active_analysis'] = (startup_name, industry, region, idea_description, local_density, calculated_viability, llm_data)
-                    st.success("Distributed pipeline data transaction complete. Synchronization verified.")
+                    st.success("Report Generation Successful. Data synchronized.")
                     
                 except Exception as e:
-                    st.error(f"Inference Architecture Failure Node: {str(e)}")
+                    st.error(f"Inference Failure: {str(e)}")
 
-    # Interactive Dashboard Visualization Block
+    # Clean Output Dashboard Display
     if 'active_analysis' in st.session_state:
         name, ind, reg, desc, dens, algo_score, payload = st.session_state['active_analysis']
         st.markdown("---")
-        st.markdown(f"<h2 class='neon-text'>// EVALUATION ANALYSIS TELEMETRY REPORT: {name}</h2>", unsafe_allow_html=True)
+        st.header(f"📈 Business Intelligence Report: {name}")
         
-        col_c1, col_c2, col_c3 = st.columns(3)
-        with col_c1:
-            st.metric(label="[Local Code] NLP Keyword Density", value=f"{dens}%")
-        with col_c2:
-            st.metric(label="[Local Logic] Algorithmic Viability Index", value=f"{algo_score}%")
-        with col_c3:
-            st.metric(label="[Cloud Engine] Market Scalability Matrix", value=f"{payload.get('scalability_score', 50)}%")
+        # High Impact Analytics Cards
+        col_m1, col_m2, col_m3 = st.columns(3)
+        with col_m1:
+            st.metric(label="Local NLP Keyword Density", value=f"{dens}%")
+        with col_m2:
+            st.metric(label="Local Algorithmic Base Score", value=f"{algo_score}%")
+        with col_m3:
+            st.metric(label="AI Market Scalability Index", value=f"{payload.get('scalability_score', 50)}%")
 
-        c1, c2 = st.columns([1, 1])
-        with c1:
-            st.markdown("<div class='terminal-card'>", unsafe_allow_html=True)
-            st.markdown("<h4 style='color:#00f2ff;margin-top:0;'>[ COMPUTATIONAL SCORING GEOMETRY PROFILE ]</h4>", unsafe_allow_html=True)
-            fig = go.Figure(data=go.Scatterpolar(
-                r=[algo_score, payload.get('market_demand_score', 50), payload.get('scalability_score', 50)],
-                theta=['Local Algorithmic Matrix', 'Market Capacity Index', 'Scalability Performance'],
-                fill='toself', line_color='#00f2ff', fillcolor='rgba(0,242,255,0.1)'
-            ))
-            fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 100], gridcolor="#30363d"), angularaxis=dict(gridcolor="#30363d")),
-                              paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', height=250, margin=dict(l=30,r=30,t=30,b=30))
-            st.plotly_chart(fig, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
-        with c2:
-            st.markdown(f"<div class='terminal-card' style='height:294px;'><b>[ ELEVATOR PITCH DATA RECOVERY ]</b><br><br><p style='font-style: italic; color:#e1e4e8; line-height:1.6;'>\"{payload.get('elevator_pitch')}\"</p></div>", unsafe_allow_html=True)
+        # Interactive Charts Section
+        col_g1, col_g2 = st.columns([1, 1])
+        with col_g1:
+            with st.container(border=True):
+                st.subheader("Statistical Performance Chart")
+                fig = go.Figure(data=go.Scatterpolar(
+                    r=[algo_score, payload.get('market_demand_score', 50), payload.get('scalability_score', 50)],
+                    theta=['Local Code Algorithm', 'Market Demand Score', 'Scalability Vector'],
+                    fill='toself', line_color='#3b82f6', fillcolor='rgba(59, 130, 246, 0.2)'
+                ))
+                fig.update_layout(
+                    polar=dict(radialaxis=dict(visible=True, range=[0, 100], gridcolor="#334155"), angularaxis=dict(gridcolor="#334155")),
+                    paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', height=260, margin=dict(l=30,r=30,t=30,b=30)
+                )
+                st.plotly_chart(fig, use_container_width=True)
+        with col_g2:
+            with st.container(border=True):
+                st.subheader("Professional Elevator Pitch")
+                st.write("")
+                st.info(f"\"{payload.get('elevator_pitch')}\"")
+                st.write("")
 
-        col_d1, col_d2 = st.columns(2)
-        with col_d1:
-            st.markdown(f"<div class='terminal-card'><b>[ TARGET OPERATIONS FIELD ]</b><br><br>{payload.get('market_demand_analysis')}</div>", unsafe_allow_html=True)
-        with col_d2:
-            st.markdown(f"<div class='terminal-card'><b>[ COMPETITIVE VECTOR SHIELD ]</b><br><br>{payload.get('competitor_analysis')}</div>", unsafe_allow_html=True)
+        # Deep Market Analysis Text Blocks (Using clean native containers to completely avoid overlaps)
+        st.markdown("---")
+        col_t1, col_t2 = st.columns(2)
+        with col_t1:
+            with st.container(border=True):
+                st.subheader("Market Demand Analysis")
+                st.write(payload.get('market_demand_analysis'))
+        with col_t2:
+            with st.container(border=True):
+                st.subheader("Competitor Analysis")
+                st.write(payload.get('competitor_analysis'))
 
-        st.markdown("<h3 class='neon-text'>[ ARCHITECTURAL SWOT STRATEGIC EVALUATION GRID ]</h3>", unsafe_allow_html=True)
+        # Strategic SWOT Matrix Component Blocks
+        st.markdown("---")
+        st.subheader("Strategic SWOT Assessment")
         s1, s2, s3, s4 = st.columns(4)
-        s1.markdown("<div class='terminal-card' style='border-left-color:#56d364; height: 180px;'><b>STRENGTH CORE</b><br><br>" + "<br>".join([f"• {x}" for x in payload.get('strengths', [])]) + "</div>", unsafe_allow_html=True)
-        s2.markdown("<div class='risk-card' style='height: 180px;'><b>WEAKNESS CHANNELS</b><br><br>" + "<br>".join([f"• {x}" for x in payload.get('weaknesses', [])]) + "</div>", unsafe_allow_html=True)
-        s3.markdown("<div class='terminal-card' style='border-left-color:#e3b341; height: 180px;'><b>OPPORTUNITY MARGINS</b><br><br>" + "<br>".join([f"• {x}" for x in payload.get('opportunities', [])]) + "</div>", unsafe_allow_html=True)
-        s4.markdown("<div class='risk-card' style='height: 180px;'><b>THREAT COMPILATION</b><br><br>" + "<br>".join([f"• {x}" for x in payload.get('threats', [])]) + "</div>", unsafe_allow_html=True)
+        with s1:
+            st.success("**STRENGTHS (Core Advantages)**\n\n" + "\n\n".join([f"• {x}" for x in payload.get('strengths', [])]))
+        with s2:
+            st.error("**WEAKNESSES (Internal Vulnerabilities)**\n\n" + "\n\n".join([f"• {x}" for x in payload.get('weaknesses', [])]))
+        with s3:
+            st.warning("**OPPORTUNITIES (Growth Fields)**\n\n" + "\n\n".join([f"• {x}" for x in payload.get('opportunities', [])]))
+        with s4:
+            st.info("**THREATS (Market Risks)**\n\n" + "\n\n".join([f"• {x}" for x in payload.get('threats', [])]))
 
+        # Final Operational Context
+        st.markdown("---")
         col_r1, col_r2 = st.columns(2)
         with col_r1:
-            st.markdown("<div class='terminal-card'>", unsafe_allow_html=True)
-            st.markdown("<b style='color:#ff3e3e;'>[ CRITICAL DEPENDENCY & RISK PROFILE ]</b><br><br>", unsafe_allow_html=True)
-            st.write(f"<b>System Technical Risk Factor:</b> {payload.get('technical_risks')}", unsafe_allow_html=True)
-            st.write(f"<b>Market Friction Risk Factor:</b> {payload.get('market_risks')}", unsafe_allow_html=True)
-            st.markdown("</div>", unsafe_allow_html=True)
+            with st.container(border=True):
+                st.subheader("Risk Evaluation Matrix")
+                st.write(f"**Technical Risk Analysis:** {payload.get('technical_risks')}")
+                st.write(f"**Market Friction Analysis:** {payload.get('market_risks')}")
         with col_r2:
-            st.markdown("<div class='terminal-card' style='height: 138px;'>", unsafe_allow_html=True)
-            st.markdown("<b>[ SUGGESTED STRATEGIC INCOME CHANNELS ]</b><br><br>", unsafe_allow_html=True)
-            st.write(", ".join([f"⚙️ {x}" for x in payload.get('monetization', [])]))
-            st.markdown("</div>", unsafe_allow_html=True)
+            with st.container(border=True):
+                st.subheader("Suggested Revenue Streams")
+                st.write(", ".join([f"⚙️ {x}" for x in payload.get('monetization', [])]))
 
+        # Download Deliverable Button Node
         st.markdown("---")
-        export_payload_text = f"""IDEALENS AI - INTELLIGENCE DIAGNOSTIC MANIFEST
-====================================================
-VENTURE CORE LOG INDEX: {name}
-INDUSTRY NODE DOMAIN: {ind}
-GEOGRAPHIC BOUNDARY: {reg}
-
-[LOCAL PROCESSOR EVALUATION STATISTICS]
-- Token Keyword Density Factor: {dens}%
-- Code-Driven Viability Aggregation Vector: {algo_score}%
-
-[COMPUTED VENTURE ELEVATOR PITCH]
-{payload.get('elevator_pitch')}
-
-[TARGET CONTEXT APPRAISAL]
-{payload.get('market_demand_analysis')}
-"""
+        export_text = f"IDEALENS AI SYSTEM ANALYSIS REPORT\n====================================\nVENTURE: {name}\nINDUSTRY: {ind}\nREGION: {reg}\nLOCAL ALGO VIABILITY SCORE: {algo_score}%"
         st.download_button(
-            label="▼ DOWNLOAD INTEL SYSTEM MANIFEST DATA (TXT)",
-            data=export_payload_text,
-            file_name=f"idealens_telemetry_report_{name.lower()}.txt",
+            label="Download Complete Business Report (TXT)",
+            data=export_text,
+            file_name=f"idealens_analytics_report_{name.lower()}.txt",
             mime="text/plain"
         )
 
 # ==============================================================================
-# PIPELINE CHANNEL 2: PERSISTENT INTERNAL STORAGE REGISTRY
+# WORKSPACE PANEL 2: SAVED LOGS FROM DATABASE PERSISTENCE LAYER
 # ==============================================================================
 else:
-    st.markdown("<h1 class='neon-text'>[ DATABASE REGISTRY INTERROGATION PANELS ]</h1>", unsafe_allow_html=True)
-    st.write("Verifiable physical ledger queries tracking system transactional milestones.")
+    st.title("📂 Database Records Ledger")
+    st.write("Browse historical venture evaluations stored permanently inside the local relational SQLite database system.")
     
     logs = fetch_history()
     if not logs:
-        st.info("System storage registry tracks zero metrics. Run processing loops to populate structural schemas.")
+        st.info("The persistent SQL database is currently empty. Run an evaluation to store metrics data.")
     else:
-        st.markdown("### Verifiable SQLite Relational Table Matrix Rows")
+        st.markdown("### Verifiable Database Log Registry Entries")
         for log_id, timestamp, v_name, ind, a_score in logs:
-            with st.expander(f"ROW ENGINE KEY: {log_id} | TIMESTAMP: {timestamp} -> CODENAME: {v_name} ({ind}) | ALGO SCORE VECTOR: {a_score}%"):
+            with st.expander(f"Record #{log_id} | {timestamp} -> VENTURE: {v_name} ({ind}) | LOCAL ALGO SCORE: {a_score}%"):
                 row_dataset = fetch_record_by_id(log_id)
                 if row_dataset:
                     r_name, r_ind, r_reg, r_desc, r_dens, r_ascore, r_payload = row_dataset
                     parsed_object = json.loads(r_payload)
                     
-                    st.write(f"**Conceptual Model Prompt Summary:** {r_desc}")
-                    st.write(f"**Physical Matrix Metrics Calculated:** Keyword Density Node: {r_dens}% | Balanced Math Formula Index Score: {r_ascore}%")
-                    st.write(f"**Saved AI Business Intelligence Analysis:** {parsed_object.get('market_demand_analysis')}")
+                    st.write(f"**Venture Concept Summary:** {r_desc}")
+                    st.write(f"**Computed Local Data:** Keyword Density Node: {r_dens}% | Formula Baseline Score: {r_ascore}%")
+                    st.write(f"**Preserved Cloud Demand Analysis:** {parsed_object.get('market_demand_analysis')}")
